@@ -1,40 +1,65 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const popupContainer = document.getElementById('popup-container');
-    const popupContent = document.getElementById('popup-content');
-    const popupBody = document.getElementById('popup-body');
-    const closePopup = document.getElementById('close-popup');
+// Add smooth scrolling for navigation links
+document.querySelectorAll('nav a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+        targetElement.scrollIntoView({ behavior: 'smooth' });
+    });
+});
 
-    document.querySelectorAll('.menu-item').forEach(item => {
-        item.addEventListener('click', function(e) {
-            e.preventDefault();
-            const content = getPopupContent(this.dataset.popup);
-            popupBody.innerHTML = content;
-            popupContainer.style.display = 'flex';
-        });
+// Add hover effects for product cards
+const productCards = document.querySelectorAll('.product-card');
+productCards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-5px)';
+        card.style.boxShadow = '0 5px 15px rgba(57, 255, 20, 0.2)';
+        card.style.transition = 'all 0.3s ease';
     });
 
-    closePopup.addEventListener('click', function() {
-        popupContainer.style.display = 'none';
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0)';
+        card.style.boxShadow = 'none';
     });
+});
 
-    window.addEventListener('click', function(e) {
-        if (e.target === popupContainer) {
-            popupContainer.style.display = 'none';
-        }
+// Add click handlers for buttons
+const shopNowBtn = document.querySelector('.hero button');
+shopNowBtn.addEventListener('click', () => {
+    const productsSection = document.getElementById('products');
+    productsSection.scrollIntoView({ behavior: 'smooth' });
+});
+
+const learnMoreBtns = document.querySelectorAll('.product-card button');
+learnMoreBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+        const productName = this.parentElement.querySelector('h3').textContent;
+        alert(`Learn more about ${productName}! (Product details would be shown here)`);
     });
+});
 
-    function getPopupContent(type) {
-        switch(type) {
-            case 'services':
-                return 'This is the Services popup content.';
-            case 'contact':
-                return 'This is the Contact popup content.';
-            case 'faq':
-                return 'This is the FAQ popup content.';
-            case 'seedia':
-                return 'This is the Seedia popup content.';
-            default:
-                return '';
-        }
+// Add a subtle animation for the header on scroll
+let lastScrollPosition = 0;
+window.addEventListener('scroll', () => {
+    const header = document.querySelector('header');
+    const currentScrollPosition = window.pageYOffset;
+    
+    if (currentScrollPosition > lastScrollPosition) {
+        header.style.transform = 'translateY(-100%)';
+        header.style.transition = 'transform 0.3s ease';
+    } else {
+        header.style.transform = 'translateY(0)';
     }
+    
+    lastScrollPosition = currentScrollPosition;
+});
+
+// Add loading animation for images
+document.querySelectorAll('.product-card img').forEach(img => {
+    img.style.opacity = '0';
+    img.style.transition = 'opacity 0.5s ease';
+    
+    img.addEventListener('load', () => {
+        img.style.opacity = '1';
+    });
 });
